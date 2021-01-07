@@ -1,8 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
+const { jwt_secret } = require('../keys')
 
+console.log(jwt_secret)
 require('../server/User')
 const User = mongoose.model("User")
 router.get('/home', (req, res) => {
@@ -12,43 +15,73 @@ router.get('/home', (req, res) => {
 router.post('/signup', (req, res) => {
     const user = req.body
     const { username, email, password } = req.body
+
     if (!username || !email || !password) {
         return res.json({ "err": "enter all details" })
     }
-    bcrypt.hash(password, 14, (err, data) => {
-        User.findOne({ email: email }).then((saveduser) => {
-            if (saveduser)
-                return res.json({ "err": " user already exists" })
 
-            const userdetails = new User({
+    User.findOne({ email: email }).then((saveduser) => {
+        if (saveduser)
+            return res.json({ "err": "user already exists" })
+
+        bcrypt.hash(password, 12).then((hashpass) => {
+
+
+            const user = new User({
                 username: username,
                 email: email,
-                password: password
+                password: hashpass
+
+
+
             })
 
-            userdetails.save().then((err, data) => {
-                if (err)
-                    return res.send({ "err": err })
+            user.save().then((save) => {
+                if (save)
+                    return res.json({ "status": "saved!!" })
 
-                res.send(data)
+                return res.json({ "status": "failed!!!" })
+
+
+            }).catch(err => {
+                console.log(err)
             })
         })
-
-
+    }).catch(err => {
+        console.log(err)
     })
+
 
 })
 
-router.get('/signin', (req, res) => {
+router.post('/signin', (req, res) => {
     const { email, password } = req.body
     if (!email || !password)
         res.json({ "error": "enter all details" })
 
-    User.findOne({ "email": email }).then((user) => {
-        if (user)
-            return res.json({ "status": "logged in" })
+    User.findOne({ email: email }).then((user) => {
 
-        return res.json({ "status": "failed!!!" })
+        if (!user)
+            return res.json({ "status": "user not found" })
+        console.log(user)
+        bcrypt.compare(password, user.password).then(match => {
+
+            if (match) {
+
+                const token = jwt.sign({ _id: user._id }, jwt_secret)
+                return res.json({ token })
+            }
+            else {
+                return res.json({ "err": "token error!!!" })
+            }
+        }).catch((err) => {
+            return res.json({ "err": err })
+        })
+
+
+
+
+
 
 
 
