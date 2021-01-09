@@ -15,6 +15,11 @@ const PostSchema = new mongoose.Schema({
         required: true
     },
 
+    picture:
+    {
+        type: String,
+        required: true
+    },
 
     postedby:
     {

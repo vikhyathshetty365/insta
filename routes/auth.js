@@ -57,13 +57,13 @@ router.post('/signup', (req, res) => {
 router.post('/signin', (req, res) => {
     const { email, password } = req.body
     if (!email || !password)
-        res.json({ "error": "enter all details" })
+        res.json({ "err": "enter all details" })
 
     User.findOne({ email: email }).then((user) => {
 
         if (!user)
-            return res.json({ "status": "user not found" })
-        console.log(user)
+            return res.json({ "err": "user not found" })
+
         bcrypt.compare(password, user.password).then(match => {
 
             if (match) {

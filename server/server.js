@@ -1,5 +1,6 @@
 var express = require('express')
 var mongoose = require('mongoose')
+
 const app = express()
 require('./User')
 require('./posts')

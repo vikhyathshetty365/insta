@@ -1,11 +1,12 @@
-.App {
+/*.App {
   text-align: center;
-}
+}*/
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -13,10 +14,61 @@
   }
 }
 
+
+.profile 
+{
+  border-bottom: 1px solid lightgrey;
+}
+.gallery
+{
+  display:flex;
+  flex-wrap: wrap;
+  justify-content:space-around;
+  
+}
+.home-card 
+{
+max-Width:650px;
+height: max-content;
+
+
+}
+
+
+.post-card 
+{
+ margin:20px auto;
+
+}
+.homeimg
+{
+  max-Width:600px ;
+  margin:20px auto;
+ margin-left: 25px;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+}
+
+ .card> .description
+ {
+  margin-left: 25px;
+ }
+
+.item{
+  width: 30%;
+  margin-top: 1px;
+}
+
 .brand-logo
 {
  font-family: 'Pacifico', cursive;
- left: 5px;
+ left: 8px;
 }
 
 
@@ -24,13 +76,17 @@
 .mycard{
   margin-top: 30px;
 }
-.auth-card{
+
+.auth-card
+{
   padding: 20px;
   text-align: center;
   max-width: 400px;
   margin: 10px auto;
 }
-.App-header {
+
+.App-header
+{
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -40,6 +96,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
 .nav-wrapper
 {
   background-color: black;
