@@ -31,6 +31,8 @@ function Signin() {
                 M.toast({ html: 'Sign up  failed!!', classes: '#d32f2f red darken-2' })
             }
             else {
+                localStorage.setItem("jwt", data.token)
+                localStorage.setItem("user", JSON.stringify(data.user))
                 M.toast({ html: 'Sign in Sucessfull', classes: '#4caf50 green' })
                 history.push('/')
             }

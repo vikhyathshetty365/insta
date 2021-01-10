@@ -7,15 +7,16 @@ const Post = mongoose.model("Post")
 
 router.post('/createpost', requirelogin, (req, res) => {
     console.log(req.body)
-    const { title, body } = req.body
+    const { title, body, pic } = req.body
 
-    if (!title || !body)
+    if (!title || !body || !pic)
         return res.json({ "err": "error !!!!" })
 
     const post = new Post({
 
         title: title,
         body: body,
+        pic: pic,
         postedby: req.user
     })
 
@@ -58,6 +59,5 @@ router.get('/allposts', (req, res) => {
         console.log(err)
     })
 })
-
 
 module.exports = router

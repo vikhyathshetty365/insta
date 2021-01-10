@@ -55,7 +55,7 @@ router.post('/signup', (req, res) => {
 })
 
 router.post('/signin', (req, res) => {
-    const { email, password } = req.body
+    const { username, email, password } = req.body
     if (!email || !password)
         res.json({ "err": "enter all details" })
 
@@ -69,7 +69,7 @@ router.post('/signin', (req, res) => {
             if (match) {
 
                 const token = jwt.sign({ _id: user._id }, jwt_secret)
-                return res.json({ token })
+                return res.json({ token, user: { username, email } })
             }
             else {
                 return res.json({ "err": "token error!!!" })
