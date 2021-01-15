@@ -1,6 +1,7 @@
 import React from 'react'
 
 function Home() {
+
     return (
 
 
@@ -43,6 +44,10 @@ function Home() {
                     <input type="text" placeholder="add comment"></input>
                 </div>
             </div>
+
+
+
+
 
 
         </div>

@@ -65,6 +65,8 @@ function Signup() {
 
                 />
 
+
+
                 <input
                     type="password"
                     placeholder="password"
@@ -78,17 +80,14 @@ function Signup() {
 
 
                 </div>
-                <button onClick={() => postdata()} className="btn waves-effect waves-light #64b5f6 blue darken-1"
+                <button onClick={() => postdata()} className="btn waves-effect waves-light #64b5f6 blue darken-1">
 
-                >
+
                     SignUP
             </button>
                 <h5>
                     <Link to="/signin">Already have an account ?</Link>
                 </h5>
-
-
-
 
 
             </div>
