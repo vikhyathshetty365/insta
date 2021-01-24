@@ -10,7 +10,7 @@ const Nav = () => {
     const router = () => {
 
 
-        console.log(state)
+
 
         if (state) {
             return [

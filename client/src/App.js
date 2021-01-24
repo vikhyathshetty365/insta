@@ -25,7 +25,6 @@ const Router = () => {
     if (user) {
       history.push('/')
       console.log(user)
-
       dispatch({ type: "USER", payload: user })
     }
     else {
@@ -48,6 +47,7 @@ const Router = () => {
       <Route path='/Signin'>
         <Signin />
       </Route>
+
       <Route path='/Signup'>
         <Signup />
       </Route>
@@ -55,11 +55,15 @@ const Router = () => {
       <Route path='/profile'>
         <Profile />
       </Route>
+
       <Route path='/createpost'>
         <Createpost />
       </Route>
+
     </Switch>
+
   )
+
 
 
 
@@ -68,10 +72,12 @@ function App() {
 
   const [state, dispatch] = useReducer(reducer, initialstate)
   return (
+
     <div className="App">
       <Usercontext.Provider value={{ state, dispatch }} >
         <BrowserRouter>
           <Nav />
+
           <Router />
         </BrowserRouter>
       </Usercontext.Provider>

@@ -6,47 +6,44 @@ import { useHistory } from 'react-router-dom'
 
 import M from 'materialize-css'
 function Createpost() {
-
-
-
     const [title, settitle] = useState("")
     const [body, setbody] = useState("")
     const [image, setimage] = useState("")
     const [url, seturl] = useState("")
     const history = useHistory()
+
+
     useEffect(() => {
         if (url) {
-            fetch('/createpost', {
-
+            fetch("/createpost", {
                 method: "post",
-                body: JSON.stringify({
-                    title: title,
-                    body: body,
-                    pic: url
-                }),
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + localStorage.getItem("jwt")
+                },
+                body: JSON.stringify({
+                    title,
+                    body,
+                    pic: url
+                })
+            }).then(res => res.json())
+                .then(data => {
 
-                }
-
-            }).then(res => res.json()).then(data => {
-                if (data.eror) {
-
-                    M.toast({ html: 'Upload failed!!', classes: '#d32f2f red darken-2' })
-                }
-
-                else {
-                    M.toast({ html: 'Upload sucessfull', classes: '#4caf50 green' })
-
-                    history.push('/')
-
-                }
-
-            }).catch(err => { console.log(err) });
+                    if (data.eror) {
+                        M.toast({ html: data.error, classes: "#c62828 red darken-3" })
+                        console.log('error db')
+                    }
+                    else {
+                        M.toast({ html: "Created post Successfully", classes: "#43a047 green darken-1" })
+                        history.push('/')
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
 
         }
     }, [url])
+
     const postdata = () => {
 
 
@@ -66,7 +63,36 @@ function Createpost() {
             console.log(err)
         })
 
+        fetch('/createpost', {
 
+            method: "post",
+            body: JSON.stringify({
+                title: title,
+                body: body,
+                pic: url
+            }),
+            headers:
+
+            {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+
+            }
+
+        }).then(res => res.json()).then(data => {
+            if (data.eror) {
+                M.toast({ html: 'Upload failed!!', classes: '#d32f2f red darken-2' })
+                console.log('error cloudinary')
+            }
+
+            else {
+                M.toast({ html: 'Upload sucessfull', classes: '#4caf50 green' })
+                history.push('/')
+
+            }
+
+        })
+            .catch(err => { console.log(err) });
 
 
 

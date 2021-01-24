@@ -46,7 +46,7 @@ router.get('/mypost', requirelogin, (req, res) => {
 
 })
 
-router.get('/allposts', (req, res) => {
+router.get('/allposts', requirelogin, (req, res) => {
 
     Post.find().populate("postedby", "_id email").then((posts) => {
         if (posts)
@@ -58,6 +58,84 @@ router.get('/allposts', (req, res) => {
     }).catch(err => {
         console.log(err)
     })
+})
+
+
+router.put('/like', requirelogin, (req, res) => {
+
+
+    Post.findByIdAndUpdate(req.body.postId, {
+        $push: { likes: req.user._id }
+    }, {
+        new: true,
+    }).exec((err, result) => {
+        if (err) {
+            res.json({ "err": err })
+        }
+        else
+            res.json({ result })
+    })
+
+})
+
+
+router.put('/unlike', requirelogin, (req, res) => {
+    Post.findByIdAndUpdate(req.body.postId, {
+        $pull: { likes: req.user._id }
+    }, {
+        new: true,
+    }).exec((err, result) => {
+        if (err)
+            res.json({ 'err': err })
+        else
+            res.json({ 'result': result })
+    })
+})
+
+
+/*router.put('/comment', requirelogin, (req, res) => {
+    const comment = {
+        text: req.body.text,
+        postedby: req.user._id
+    }
+
+    Post.findByIdAndUpdate(req.body.postId, {
+
+        $push: { comments: comment }
+    },
+        { new: true }
+    ).populate("comments.postedby", "_id name")
+        .populate("postedby", "_id name")
+        .exec((err, res) => {
+            if (err)
+                return res.json({ err })
+
+            return res.json({ err })
+        })
+
+})*/
+
+router.put('/comments', requirelogin, (req, res) => {
+    const comment = {
+        text: req.body.text,
+        postedby: req.user._id
+    }
+    Post.findByIdAndUpdate(req.body.postId, {
+        $push: { comments: comment }
+    }, {
+        new: true
+    })
+        .populate("comments.postedby", "_id username")
+        .populate("postedby", "_id username")
+        .exec((err, result) => {
+            if (err) {
+                return res.status(422).json({ error: err })
+            } else {
+
+
+                res.json({ result })
+            }
+        })
 })
 
 module.exports = router

@@ -69,7 +69,8 @@ router.post('/signin', (req, res) => {
             if (match) {
 
                 const token = jwt.sign({ _id: user._id }, jwt_secret)
-                return res.json({ token, user: { username, email } })
+                const { username, _id, email } = user
+                return res.json({ token, user: { username, email, _id } })
             }
             else {
                 return res.json({ "err": "token error!!!" })
